@@ -1,13 +1,11 @@
 {
   "name": "nv-bus",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "deploy": "ng deploy"
   },
   "private": true,
   "dependencies": {
@@ -35,6 +33,7 @@
     "@angular/compiler-cli": "~8.2.13",
     "@angular/language-service": "~8.2.13",
     "@types/node": "~8.9.4",
+    "angular-cli-ghpages": "^0.6.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3",

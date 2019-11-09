@@ -80,8 +80,15 @@
           "options": {
             "browserTarget": "nv-bus:build"
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "nv-bus"
+          }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "nv-bus"
 }
