@@ -1,0 +1,19 @@
+{
+  "hosting": [
+    {
+      "target": "nv-bus",
+      "public": "dist/nv-bus",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    }
+  ]
+}

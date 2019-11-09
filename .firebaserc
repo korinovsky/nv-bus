@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "nv-bus": {
+      "hosting": {
+        "nv-bus": [
+          "nv-bus"
+        ]
+      }
+    }
+  }
+}

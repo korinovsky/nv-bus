@@ -82,10 +82,8 @@
           }
         },
         "deploy": {
-          "builder": "angular-cli-ghpages:deploy",
-          "options": {
-            "baseHref": "/nv-bus/"
-          }
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }
