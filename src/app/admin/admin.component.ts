@@ -3,7 +3,7 @@ import {filter} from "rxjs/operators";
 import {Subscription} from "rxjs";
 
 import {AuthService} from "../core/auth.service";
-import {User} from "firebase";
+import {User} from "firebase/app";
 
 @Component({
     selector: 'app-admin',

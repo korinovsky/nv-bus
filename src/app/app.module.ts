@@ -13,9 +13,9 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {StopsModule} from "./stops/stops.module";
 import {TicketModule} from "./ticket/ticket.module";
-import {environment} from "../environments/environment";
 import {AuthService} from "./core/auth.service";
 import {AdminModule} from "./admin/admin.module";
+import {firebase} from "./conf/firebase";
 
 @NgModule({
     declarations: [
@@ -32,7 +32,7 @@ import {AdminModule} from "./admin/admin.module";
         MatButtonModule,
         MatIconModule,
         MatMomentDateModule,
-        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireModule.initializeApp(firebase),
         AngularFireAuthModule
     ],
     providers: [
