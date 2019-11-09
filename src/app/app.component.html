@@ -2,6 +2,9 @@
     <div class="container">
         <button mat-button routerLink="/">Новые ватутинки</button>
         <span class="flex-spacer"></span>
+        <button *ngIf="user" mat-icon-button routerLink="/admin">
+            <mat-icon>account_circle</mat-icon>
+        </button>
         <button mat-icon-button routerLink="/ticket">
             <mat-icon>account_balance_wallet</mat-icon>
         </button>

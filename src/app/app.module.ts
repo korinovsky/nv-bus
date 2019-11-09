@@ -6,11 +6,16 @@ import {MAT_DATE_LOCALE} from "@angular/material/core";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatToolbarModule} from "@angular/material/toolbar";
+import {AngularFireModule} from "@angular/fire";
+import {AngularFireAuthModule} from "@angular/fire/auth";
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {StopsModule} from "./stops/stops.module";
 import {TicketModule} from "./ticket/ticket.module";
+import {environment} from "../environments/environment";
+import {AuthService} from "./core/auth.service";
+import {AdminModule} from "./admin/admin.module";
 
 @NgModule({
     declarations: [
@@ -22,14 +27,18 @@ import {TicketModule} from "./ticket/ticket.module";
         AppRoutingModule,
         StopsModule,
         TicketModule,
+        AdminModule,
         MatToolbarModule,
         MatButtonModule,
         MatIconModule,
         MatMomentDateModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFireAuthModule
     ],
     providers: [
         {provide: LOCALE_ID, useValue: 'ru-RU'},
         {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'},
+        AuthService
     ],
     bootstrap: [AppComponent]
 })
