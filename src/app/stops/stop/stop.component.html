@@ -1,0 +1,7 @@
+<mat-card class="mb-4">
+    <mat-card-title>{{stop.name}}</mat-card-title>
+    <mat-card-content>
+        <div *ngFor="let arrival of arrivals">{{arrival.time}}&nbsp;<span
+                [ngClass]="{future: arrival.future}">{{arrival.bus}}</span></div>
+    </mat-card-content>
+</mat-card>

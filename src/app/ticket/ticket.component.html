@@ -1,0 +1,63 @@
+<mat-card class="mb-4">
+    <mat-card-title>Проезд</mat-card-title>
+    <mat-card-content>
+        <mat-form-field>
+            <mat-label>Дата покупки</mat-label>
+            <input (dateChange)="calculateCost()" [(ngModel)]="buyDate" [matDatepicker]="buyDatepicker"
+                   matInput>
+            <mat-datepicker-toggle [for]="buyDatepicker" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #buyDatepicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Поездок в день</mat-label>
+            <mat-select (ngModelChange)="calculateCost()" [(ngModel)]="ticketsPerDay">
+                <mat-option *ngFor="let value of [2, 4, 6]" [value]="value">
+                    {{value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Начало отпуска</mat-label>
+            <input (dateChange)="calculateCost()" [(ngModel)]="startDate" [matDatepicker]="startDatepicker"
+                   [max]="endDate"
+                   matInput>
+            <mat-datepicker-toggle [for]="startDatepicker" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #startDatepicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Конец отпуска</mat-label>
+            <input (dateChange)="calculateCost()" [(ngModel)]="endDate" [matDatepicker]="endDatepicker"
+                   [min]="startDate"
+                   matInput>
+            <mat-datepicker-toggle [for]="endDatepicker" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #endDatepicker></mat-datepicker>
+        </mat-form-field>
+        <div class="table-wrapper">
+            <table *ngIf="buyDate" [dataSource]="dataSource" mat-table>
+                <ng-container matColumnDef="name">
+                    <th *matHeaderCellDef mat-header-cell>Билет</th>
+                    <td *matCellDef="let element" mat-cell> {{element.name}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cost">
+                    <th *matHeaderCellDef mat-header-cell>Цена</th>
+                    <td *matCellDef="let element" mat-cell> {{element.cost | currency: 'RUB'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="days">
+                    <th *matHeaderCellDef mat-header-cell>Дни</th>
+                    <td *matCellDef="let element" mat-cell> {{element.days}} </td>
+                </ng-container>
+                <ng-container matColumnDef="costPerTicket">
+                    <th *matHeaderCellDef mat-header-cell>Поездка</th>
+                    <td *matCellDef="let element" mat-cell> {{element.costPerTicket | currency: 'RUB'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="profit">
+                    <th *matHeaderCellDef mat-header-cell>Выгода</th>
+                    <td *matCellDef="let element" mat-cell> {{element.profit | currency: 'RUB'}} </td>
+                </ng-container>
+                <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+                <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>
+

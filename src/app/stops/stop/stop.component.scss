@@ -1,0 +1,22 @@
+.mat-card {
+  .mat-card-content {
+    line-height: 2;
+
+    div {
+      display: inline-block;
+      margin-right: .6em;
+
+      span {
+        line-height: 1;
+        display: inline-block;
+        padding: .2em .4em;
+        border-radius: .2rem;
+        color: white;
+        background: gray;
+        &.future {
+          background: darkgreen;
+        }
+      }
+    }
+  }
+}
