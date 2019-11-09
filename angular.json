@@ -84,7 +84,7 @@
         "deploy": {
           "builder": "angular-cli-ghpages:deploy",
           "options": {
-            "baseHref": "nv-bus"
+            "baseHref": "/nv-bus/"
           }
         }
       }
