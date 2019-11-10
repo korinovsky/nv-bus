@@ -16,6 +16,8 @@ import {TicketModule} from "./ticket/ticket.module";
 import {AuthService} from "./core/auth.service";
 import {AdminModule} from "./admin/admin.module";
 import {firebase} from "./conf/firebase";
+import {DirectionsService} from "./core/directions.service";
+import {AngularFireDatabaseModule} from "@angular/fire/database";
 
 @NgModule({
     declarations: [
@@ -33,12 +35,14 @@ import {firebase} from "./conf/firebase";
         MatIconModule,
         MatMomentDateModule,
         AngularFireModule.initializeApp(firebase),
-        AngularFireAuthModule
+        AngularFireAuthModule,
+        AngularFireDatabaseModule
     ],
     providers: [
         {provide: LOCALE_ID, useValue: 'ru-RU'},
         {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'},
-        AuthService
+        AuthService,
+        DirectionsService
     ],
     bootstrap: [AppComponent]
 })

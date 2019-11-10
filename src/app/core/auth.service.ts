@@ -12,9 +12,7 @@ export class AuthService {
         private fireAuth: AngularFireAuth,
         private router: Router
     ) {
-        fireAuth.authState.subscribe(auth => {
-            this.user.next(auth)
-        });
+        fireAuth.authState.subscribe(user => this.user.next(user));
     }
 
     login() {

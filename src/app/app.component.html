@@ -5,6 +5,9 @@
         <button *ngIf="user" mat-icon-button routerLink="/admin">
             <mat-icon>account_circle</mat-icon>
         </button>
+        <button (click)="logout()" *ngIf="user" mat-icon-button>
+            <mat-icon fontIcon="fa-sign-out" fontSet="fa"></mat-icon>
+        </button>
         <button mat-icon-button routerLink="/ticket">
             <mat-icon>account_balance_wallet</mat-icon>
         </button>

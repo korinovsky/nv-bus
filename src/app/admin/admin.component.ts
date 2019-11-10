@@ -13,6 +13,7 @@ import {User} from "firebase/app";
 export class AdminComponent implements OnInit, OnDestroy {
     user: User;
     private subscription: Subscription;
+    private first = true;
 
     constructor(
         private authService: AuthService
@@ -26,15 +27,11 @@ export class AdminComponent implements OnInit, OnDestroy {
             .subscribe(user => {
                 if (user) {
                     this.user = user;
-                } else {
+                } else if (this.first) {
                     this.authService.login();
                 }
+                this.first = false;
             });
-    }
-
-    logout(): void {
-        this.subscription.unsubscribe();
-        this.authService.logout();
     }
 
     ngOnDestroy(): void {

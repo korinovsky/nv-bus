@@ -10,7 +10,11 @@ import {User} from "firebase/app";
 export class AppComponent {
     user: User;
 
-    constructor(authService: AuthService) {
-        authService.user.subscribe(user => this.user = user);
+    constructor(private authService: AuthService) {
+        this.authService.user.subscribe(user => this.user = user);
+    }
+
+    logout() {
+        this.authService.logout();
     }
 }

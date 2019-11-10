@@ -1,4 +1,4 @@
-@import "~bootstrap/scss/bootstrap-grid";
+@import "~bootstrap/scss/bootstrap";
 @import '~@angular/material/theming';
 @import "~font-awesome/css/font-awesome.css";
 @import "~material-design-icons/iconfont/material-icons.css";
@@ -30,4 +30,8 @@ $candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-
 body {
   padding: 0;
   margin: 0;
+}
+
+.mat-icon.fa {
+  font-size: 24px;
 }
