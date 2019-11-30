@@ -1,9 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {filter} from "rxjs/operators";
-import {Subscription} from "rxjs";
+import {filter} from 'rxjs/operators';
+import {Subscription} from 'rxjs';
 
-import {AuthService} from "../core/auth.service";
-import {User} from "firebase/app";
+import {AuthService} from '~core/auth.service';
+import {User} from 'firebase/app';
+import {DirectionsService} from "~core/directions.service";
+import {Direction} from "~core/models/direction.model";
 
 @Component({
     selector: 'app-admin',
@@ -11,12 +13,13 @@ import {User} from "firebase/app";
     styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit, OnDestroy {
-    user: User;
+    directions: Direction[];
     private subscription: Subscription;
     private first = true;
 
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
+        private directionsService: DirectionsService
     ) {}
 
     ngOnInit(): void {
@@ -26,7 +29,7 @@ export class AdminComponent implements OnInit, OnDestroy {
             )
             .subscribe(user => {
                 if (user) {
-                    this.user = user;
+                    this.directionsService.items.subscribe(value => this.directions = value);
                 } else if (this.first) {
                     this.authService.login();
                 }

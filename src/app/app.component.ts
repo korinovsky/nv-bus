@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {AuthService} from "./core/auth.service";
-import {User} from "firebase/app";
+import {AuthService} from '~core/auth.service';
+import {User} from 'firebase/app';
 
 @Component({
     selector: 'app-root',
@@ -10,7 +10,9 @@ import {User} from "firebase/app";
 export class AppComponent {
     user: User;
 
-    constructor(private authService: AuthService) {
+    constructor(
+        private authService: AuthService
+    ) {
         this.authService.user.subscribe(user => this.user = user);
     }
 

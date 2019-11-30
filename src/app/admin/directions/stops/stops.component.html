@@ -1,0 +1,36 @@
+<h3>
+    {{direction.name}}
+    <button (click)="create()" mat-icon-button>
+        <mat-icon>add</mat-icon>
+    </button>
+</h3>
+<ng-container [ngSwitch]="stops.length">
+    <p class="empty" *ngSwitchCase="0">Список пуст</p>
+    <table *ngSwitchDefault [dataSource]="stops" mat-table>
+        <ng-container matColumnDef="way">
+            <th *matHeaderCellDef mat-header-cell>Автобус</th>
+            <td *matCellDef="let element" mat-cell>{{element.way}}</td>
+        </ng-container>
+        <ng-container matColumnDef="direction">
+            <th *matHeaderCellDef mat-header-cell>Направление</th>
+            <td *matCellDef="let element" mat-cell>{{getDirectionName(element.direction)}}</td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+            <th *matHeaderCellDef mat-header-cell>Остановка</th>
+            <td *matCellDef="let element" mat-cell>{{element.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+            <th *matHeaderCellDef mat-header-cell></th>
+            <td *matCellDef="let element" mat-cell>
+                <button (click)="update(element)" mat-icon-button>
+                    <mat-icon>create</mat-icon>
+                </button>
+                <button (click)="remove(element.key)" mat-icon-button>
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <tr *matHeaderRowDef="columns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: columns;" mat-row></tr>
+    </table>
+</ng-container>

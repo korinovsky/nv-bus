@@ -5,8 +5,14 @@ export abstract class DbListService<T> {
     items = new BehaviorSubject<T[]>(undefined);
     private list: AngularFireList<T>;
 
-    protected constructor(db: AngularFireDatabase, pathOrRef: string) {
-        this.list = db.list<T>(pathOrRef);
+    protected constructor(private db: AngularFireDatabase, pathOrRef?: string) {
+        if (pathOrRef) {
+            this.init(pathOrRef);
+        }
+    }
+
+    protected init(pathOrRef: string) {
+        this.list = this.db.list<T>(pathOrRef);
         this.list.snapshotChanges()
             .subscribe(items => this.items.next(items.map(({key, payload}) => ({key, ...payload.val()}))));
     }

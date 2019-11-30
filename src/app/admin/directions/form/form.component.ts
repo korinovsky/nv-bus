@@ -1,7 +1,8 @@
 import {Component, Input} from '@angular/core';
-import {Direction, DirectionsService} from "../../../core/directions.service";
+import {DirectionsService} from "~core/directions.service";
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
+import {Direction} from "~core/models/direction.model";
 
 @Component({
     selector: 'app-form',

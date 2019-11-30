@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="!user"></mat-spinner>
-<ng-container *ngIf="user">
-    <app-directions></app-directions>
+<mat-spinner *ngIf="!directions"></mat-spinner>
+<ng-container *ngIf="directions">
+    <app-directions [directions]="directions"></app-directions>
 </ng-container>

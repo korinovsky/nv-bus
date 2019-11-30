@@ -1,5 +1,21 @@
 table {
   width: 100%;
+
+  & + app-stops {
+    margin-top: 2rem;
+  }
+
+  .mat-header-row {
+    height: 0;
+  }
+}
+
+app-stops {
+  display: block;
+
+  & + & {
+    margin-top: 2rem;
+  }
 }
 
 .mat-column-actions {
@@ -7,6 +23,14 @@ table {
   white-space: nowrap;
 }
 
-h2 button {
-  vertical-align: middle;
+h2 {
+  margin-bottom: 1rem;
+
+  button {
+    vertical-align: middle;
+  }
+}
+
+.empty {
+  margin: .5rem 0 0;
 }

@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Direction, DirectionsService} from "../../core/directions.service";
+import {Component, Input, OnInit} from '@angular/core';
+import {DirectionsService} from "~core/directions.service";
 import {MatDialog} from "@angular/material/dialog";
 import {FormComponent} from "./form/form.component";
+import {Direction} from "~core/models/direction.model";
 
 @Component({
     selector: 'app-directions',
@@ -9,12 +10,13 @@ import {FormComponent} from "./form/form.component";
     styleUrls: ['./directions.component.scss']
 })
 export class DirectionsComponent implements OnInit {
-    directions: Direction[];
+    @Input() directions: Direction[];
     columns = ['name', 'actions'];
+    trackById = (index, direction: Direction) => direction.key;
 
     constructor(
         private directionsService: DirectionsService,
-        public dialog: MatDialog
+        private dialog: MatDialog
     ) {}
 
     ngOnInit() {

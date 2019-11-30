@@ -13,11 +13,10 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {StopsModule} from "./stops/stops.module";
 import {TicketModule} from "./ticket/ticket.module";
-import {AuthService} from "./core/auth.service";
 import {AdminModule} from "./admin/admin.module";
 import {firebase} from "./conf/firebase";
-import {DirectionsService} from "./core/directions.service";
 import {AngularFireDatabaseModule} from "@angular/fire/database";
+import {CoreModule} from "./core/core.module";
 
 @NgModule({
     declarations: [
@@ -36,13 +35,12 @@ import {AngularFireDatabaseModule} from "@angular/fire/database";
         MatMomentDateModule,
         AngularFireModule.initializeApp(firebase),
         AngularFireAuthModule,
-        AngularFireDatabaseModule
+        AngularFireDatabaseModule,
+        CoreModule
     ],
     providers: [
         {provide: LOCALE_ID, useValue: 'ru-RU'},
-        {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'},
-        AuthService,
-        DirectionsService
+        {provide: MAT_DATE_LOCALE, useValue: 'ru-RU'}
     ],
     bootstrap: [AppComponent]
 })

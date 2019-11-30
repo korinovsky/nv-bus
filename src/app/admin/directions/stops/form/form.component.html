@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>{{title}}</h2>
+<mat-dialog-content>
+    <mat-form-field>
+        <mat-label>Автобус</mat-label>
+        <mat-select [formControl]="way">
+            <mat-option *ngFor="let option of ways | async" [value]="option">
+                {{option}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="way.valid ">
+        <mat-label>Направление</mat-label>
+        <mat-select [formControl]="direction">
+            <mat-option *ngFor="let option of directionOptions" [value]="option.value">
+                {{option.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field *ngIf="wayPoints">
+        <mat-label>Остановка</mat-label>
+        <mat-select [formControl]="wayPoint" (selectionChange)="wayPointChange($event)">
+            <mat-option *ngFor="let option of wayPoints | async" [value]="option.id">
+                {{option.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions al ign="end">
+    <button mat-button mat-dialog-close>Отменить</button>
+    <button (click)="process()" color="primary" mat-button>{{buttonText}}</button>
+</mat-dialog-actions>

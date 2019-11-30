@@ -5,25 +5,28 @@
             <mat-icon>add</mat-icon>
         </button>
     </h2>
-    <table *ngIf="directions.length > 0" [dataSource]="directions" mat-table>
-        <ng-container matColumnDef="name">
-            <th *matHeaderCellDef mat-header-cell>Название</th>
-            <td *matCellDef="let element" mat-cell>{{element.name}}</td>
-        </ng-container>
-        <ng-container matColumnDef="actions">
-            <th *matHeaderCellDef mat-header-cell></th>
-            <td *matCellDef="let element" mat-cell>
-                <button (click)="update(element)" mat-icon-button>
-                    <mat-icon>create</mat-icon>
-                </button>
-                <button (click)="remove(element.key)" mat-icon-button>
-                    <mat-icon>delete</mat-icon>
-                </button>
-            </td>
-        </ng-container>
-        <tr *matHeaderRowDef="columns" mat-header-row></tr>
-        <tr *matRowDef="let row; columns: columns;" mat-row></tr>
-    </table>
-    <div *ngIf="directions.length === 0">Список пуст</div>
+    <ng-container [ngSwitch]="directions.length">
+        <p class="empty" *ngSwitchCase="0">Список пуст</p>
+        <table *ngSwitchDefault [dataSource]="directions" mat-table>
+            <ng-container matColumnDef="name">
+                <th *matHeaderCellDef mat-header-cell></th>
+                <td *matCellDef="let element" mat-cell>{{element.name}}</td>
+            </ng-container>
+            <ng-container matColumnDef="actions">
+                <th *matHeaderCellDef mat-header-cell></th>
+                <td *matCellDef="let element" mat-cell>
+                    <button (click)="update(element)" mat-icon-button>
+                        <mat-icon>create</mat-icon>
+                    </button>
+                    <button (click)="remove(element.key)" mat-icon-button>
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <tr *matHeaderRowDef="columns" mat-header-row></tr>
+            <tr *matRowDef="let row; columns: columns;" mat-row></tr>
+        </table>
+        <app-stops *ngFor="let direction of directions; trackBy: trackById" [direction]="direction"></app-stops>
+    </ng-container>
 </ng-container>
 <mat-spinner *ngIf="!directions" [diameter]="50"></mat-spinner>

@@ -8,6 +8,7 @@ import {FormComponent} from "./form/form.component";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
 import {FormModule} from "./form/form.module";
+import {StopsModule} from "./stops/stops.module";
 
 @NgModule({
     declarations: [
@@ -20,7 +21,8 @@ import {FormModule} from "./form/form.module";
         MatDialogModule,
         MatButtonModule,
         MatIconModule,
-        FormModule
+        FormModule,
+        StopsModule
     ],
     exports: [
         DirectionsComponent
