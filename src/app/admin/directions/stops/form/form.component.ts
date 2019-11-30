@@ -95,6 +95,7 @@ export class FormComponent implements OnInit {
         if (stop) {
             this.stop = stop;
             this.form.reset(stop);
+            this.wayDirectionChanged();
         }
         this.stopsService = stopsService;
     }
@@ -109,7 +110,9 @@ export class FormComponent implements OnInit {
         if (this.wayDirection !== wayDirection) {
             if (this.way.valid && this.direction.valid) {
                 this.wayPoints = this.wayPoints$;
-                this.wayPoint.reset();
+                if (this.wayDirection) {
+                    this.wayPoint.reset();
+                }
             }
             this.wayDirection = wayDirection;
         }
