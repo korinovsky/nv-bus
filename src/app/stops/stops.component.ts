@@ -16,7 +16,7 @@ export class StopsComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        this.stops = this.stopsService.getStops();
+        this.stopsService.stops.subscribe(stops => this.stops = stops);
     }
 
     stopClicked(stop: StopModel) {

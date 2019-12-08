@@ -1,20 +1,25 @@
 import {DbItem} from "~core/models/db.model";
 
-export const directionName = {
-    AB: 'Туда',
-    BA: 'Обратно'
+export enum WayDirection {
+    AB = 'AB',
+    BA = 'BA',
+}
+
+export const wayDirectionName = {
+    [WayDirection.AB]: 'Туда',
+    [WayDirection.BA]: 'Обратно'
 };
 
-export type Direction = keyof typeof directionName;
+export type WayDirectionKey = keyof typeof WayDirection;
 
 export type Times = {
-    [direction in Direction]: number[];
+    [direction in WayDirectionKey]: number[];
 }
 
 export interface Stop extends DbItem {
     way: string;
     wayPoint: number;
-    direction: Direction;
+    direction: WayDirectionKey;
     times?: Times;
 }
 

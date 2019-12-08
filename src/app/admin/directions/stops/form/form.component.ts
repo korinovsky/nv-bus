@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
-import {directionName, Stop, WayPoint} from '~core/models/stop.model';
+import {wayDirectionName, Stop, WayPoint} from '~core/models/stop.model';
 import {StopsService} from "~core/stops.service";
 import * as _ from "lodash";
 import {Observable} from "rxjs";
@@ -22,7 +22,7 @@ export class FormComponent implements OnInit {
         direction: [null, Validators.required],
         wayPoint: [null, Validators.required],
     });
-    directionOptions = _.map(directionName, (name, value) => ({name, value}));
+    directionOptions = _.map(wayDirectionName, (name, value) => ({name, value}));
     ways: Observable<string[]>;
     wayPoints: Observable<WayPoint[]>;
     wayDirection: string;

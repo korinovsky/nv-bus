@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {StopsService} from "~core/stops.service";
 import {Direction} from "~core/models/direction.model";
-import {directionName, Stop} from "~core/models/stop.model";
+import {wayDirectionName, Stop} from "~core/models/stop.model";
 import {MatDialog} from "@angular/material";
 import {FormComponent} from "./form/form.component";
 import {filter} from "rxjs/operators";
@@ -19,7 +19,7 @@ export class StopsComponent implements OnInit {
     @Input() direction: Direction;
     stops: Stop[];
     columns = ['way', 'direction', 'name', 'actions'];
-    getDirectionName = (direction) =>  directionName[direction];
+    getDirectionName = (direction) =>  wayDirectionName[direction];
 
     constructor(
         public stopsService: StopsService,

@@ -1,59 +1,70 @@
 import {Injectable} from '@angular/core';
-import stops from '../data/stops';
+import {DirectionsService} from "~core/directions.service";
+import _forEach from "lodash/forEach";
+import _reduce from "lodash/reduce";
+import {Direction} from "~core/models/direction.model";
+import {filter} from "rxjs/operators";
+import {BehaviorSubject} from "rxjs";
 
 export class BusTime {
     time: number;
     bus: string;
 }
 
-export class DayOfWeek {
-    code: string;
-    times: Array<BusTime>;
-}
-
 export class StopModel {
     name: string;
-    days: Array<DayOfWeek>;
+    days: {[key: string]: BusTime[]};
 }
 
 @Injectable()
 export class StopsService {
-    private stops: Array<StopModel> = new Array<StopModel>();
+    stops = new BehaviorSubject<StopModel[]>([]);
 
-    constructor() {
-        Object.keys(stops).forEach((stopName) => {
-            let stop = new StopModel();
-            stop.name = stopName;
-            stop.days = new Array<DayOfWeek>();
-            this.pushDayOfWeek(stop, stopName);
-            this.stops.push(stop);
+    constructor(
+        directionsService: DirectionsService
+    ) {
+        directionsService.items
+            .pipe(filter(v => !!v))
+            .subscribe(directions => {
+            this.stops.next(directions.map(this.mapDirection.bind(this)));
         });
-    }
-
-    getStops() {
-        return this.stops;
     }
 
     getStop(name: string) {
-        return this.stops.find(stop => stop.name === name);
+        return this.stops.getValue().find(stop => stop.name === name);
     }
 
-    private pushDayOfWeek(stop, stopName) {
-        Object.keys(stops[stopName]).forEach((daysCode) => {
-            let day = new DayOfWeek();
-            stop.days.push(day);
-            day.code = daysCode;
-            day.times = new Array<BusTime>();
-            this.pushBusStop(day, stopName, daysCode);
-        });
+    private mapDirection(direction: Direction) {
+        const stop = new StopModel();
+        stop.name = direction.name;
+        stop.days = this.getDaysOfWeek(direction);
+        _forEach(direction.stops, directionStop =>
+            _forEach(directionStop.times, (times, daysCode) => {
+                this.pushBusTime(stop.days[daysCode], directionStop.way, times);
+            })
+        );
+        stop.days = _forEach(stop.days, (days, key) =>
+            stop.days[key] = days.sort((a, b) => a.time - b.time));
+        return stop;
     }
 
-    private pushBusStop(day, stopName, daysCode) {
-        stops[stopName][daysCode].forEach((elem) => {
-            let time = new BusTime();
-            day.times.push(time);
-            time.time = elem.time;
-            time.bus = elem.way;
+    private getDaysOfWeek(direction: Direction): {[key: string]: []} {
+        return _reduce(direction.stops, (res, stop) => {
+            Object.keys(stop.times).forEach(daysCode => {
+                if (!res[daysCode]) {
+                    res[daysCode] = [];
+                }
+            });
+            return res;
+        }, {});
+    }
+
+    private pushBusTime(times: BusTime[], way: string, source: number[]) {
+        source.forEach(busTime => {
+            const time = new BusTime();
+            time.time = busTime * 60;
+            time.bus = way;
+            times.push(time);
         });
     }
 }

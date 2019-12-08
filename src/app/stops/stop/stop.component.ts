@@ -1,7 +1,8 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-
 import {StopModel, StopsService} from "../stops.service";
+import _forEach from "lodash/forEach";
+import {filter} from "rxjs/operators";
 
 interface Arrival {
     time: string;
@@ -22,10 +23,11 @@ export class StopComponent implements OnInit, OnDestroy {
     public short;
     private timeout: number;
 
-    constructor(private route: ActivatedRoute,
-                private stopsService: StopsService,
-                private router: Router) {
-    }
+    constructor(
+        private route: ActivatedRoute,
+        private stopsService: StopsService,
+        private router: Router
+    ) {}
 
     private static getTimeFormatted(time: number): string {
         let hours = Math.floor(time / 3600);
@@ -39,12 +41,16 @@ export class StopComponent implements OnInit, OnDestroy {
             this.refresh();
         } else {
             this.route.params.subscribe(params => {
-                this.stop = this.stopsService.getStop(params.stop);
-                if (!this.stop) {
-                    this.router.navigate(['/']);
-                }
-                this.ngOnDestroy();
-                this.refresh();
+                this.stopsService.stops
+                    .pipe(filter(v => v.length > 0))
+                    .subscribe(() => {
+                        this.stop = this.stopsService.getStop(params.stop);
+                        if (!this.stop) {
+                            this.router.navigate(['/']);
+                        }
+                        this.ngOnDestroy();
+                        this.refresh();
+                    })
             })
         }
     }
@@ -62,27 +68,27 @@ export class StopComponent implements OnInit, OnDestroy {
             };
 
         this.arrivals = [];
-        for (let d in this.stop.days) {
-            if (checkDate(this.stop.days[d].code)) {
+        _forEach(this.stop.days, (times, dayCode) => {
+            if (checkDate(dayCode)) {
                 let future = false;
-                for (let t in this.stop.days[d].times) {
-                    let time = this.stop.days[d].times[t].time;
+                _forEach(times, busTime => {
+                    let time = busTime.time;
                     future = future || time >= nowTime;
                     if (this.short && !future) {
-                        continue;
+                        return;
                     }
                     this.arrivals.push({
                         time: StopComponent.getTimeFormatted(time),
-                        bus: this.stop.days[d].times[t].bus,
+                        bus: busTime.bus,
                         future: future,
                     });
                     if (this.short && this.arrivals.length == StopComponent.numberOfArrivals) {
-                        break;
+                        return false;
                     }
-                }
-                break;
+                });
+                return false;
             }
-        }
+        });
         this.timeout = setTimeout(this.refresh.bind(this), 60001 - now.getMilliseconds() - now.getSeconds() * 1000);
     }
 
