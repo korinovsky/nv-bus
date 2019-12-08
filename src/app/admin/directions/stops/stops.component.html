@@ -3,6 +3,9 @@
     <button (click)="create()" mat-icon-button>
         <mat-icon>add</mat-icon>
     </button>
+    <button (click)="updateTimes()" mat-icon-button>
+        <mat-icon>update</mat-icon>
+    </button>
 </h3>
 <ng-container [ngSwitch]="stops.length">
     <p class="empty" *ngSwitchCase="0">Список пуст</p>

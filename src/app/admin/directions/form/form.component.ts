@@ -37,7 +37,7 @@ export class FormComponent {
         if (this.form.valid) {
             const processFn = () => {
                 if (this.direction) {
-                    return this.directionsService.update(this.direction.key, this.form.value)
+                    return this.directionsService.update(this.form.value, this.direction.key)
                 }
                 return this.directionsService.push(this.form.value);
             };

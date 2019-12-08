@@ -1,15 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, Validators} from "@angular/forms";
 import {MatDialogRef} from "@angular/material/dialog";
-import {directionName, Stop} from '~core/models/stop.model';
+import {directionName, Stop, WayPoint} from '~core/models/stop.model';
 import {StopsService} from "~core/stops.service";
 import * as _ from "lodash";
-import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {MatOption, MatSelectChange} from "@angular/material";
 import * as autobind from "autobind";
-
-type WayPoint = { id: number, name: string };
 
 @Component({
     selector: 'app-form',
@@ -26,14 +23,13 @@ export class FormComponent implements OnInit {
         wayPoint: [null, Validators.required],
     });
     directionOptions = _.map(directionName, (name, value) => ({name, value}));
-    ways: Observable<string[]> = this.ways$;
+    ways: Observable<string[]>;
     wayPoints: Observable<WayPoint[]>;
     wayDirection: string;
 
     constructor(
         private formBuilder: FormBuilder,
         private dialogRef: MatDialogRef<FormComponent>,
-        private http: HttpClient
     ) {
     }
 
@@ -61,14 +57,6 @@ export class FormComponent implements OnInit {
         return this.stop ? 'Изменить' : 'Создать';
     }
 
-    private get ways$() {
-        return this.http.get<string[]>('https://cast256.synology.me:3443/ways');
-    }
-
-    private get wayPoints$() {
-        return this.http.get<WayPoint[]>(`https://cast256.synology.me:3443/ways/${this.way.value}/${this.direction.value}`);
-    }
-
     ngOnInit(): void {
         [this.way, this.direction].forEach(control =>
             control.valueChanges.subscribe(this.wayDirectionChanged));
@@ -78,7 +66,7 @@ export class FormComponent implements OnInit {
         if (this.form.valid) {
             const processFn = () => {
                 if (this.stop) {
-                    return this.stopsService.update(this.stop.key, this.form.value)
+                    return this.stopsService.update(this.form.value, this.stop.key)
                 }
                 return this.stopsService.push(this.form.value);
             };
@@ -92,12 +80,13 @@ export class FormComponent implements OnInit {
     }
 
     initForm(stopsService: StopsService, stop?: Stop) {
+        this.stopsService = stopsService;
+        this.ways = this.stopsService.ways$;
         if (stop) {
             this.stop = stop;
             this.form.reset(stop);
             this.wayDirectionChanged();
         }
-        this.stopsService = stopsService;
     }
 
     wayPointChange(selectChange: MatSelectChange) {
@@ -109,7 +98,7 @@ export class FormComponent implements OnInit {
         const wayDirection = this.way.value + this.direction.value;
         if (this.wayDirection !== wayDirection) {
             if (this.way.valid && this.direction.valid) {
-                this.wayPoints = this.wayPoints$;
+                this.wayPoints = this.stopsService.wayPoints$(this.way.value, this.direction.value);
                 if (this.wayDirection) {
                     this.wayPoint.reset();
                 }

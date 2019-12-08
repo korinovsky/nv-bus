@@ -3,7 +3,6 @@ import {filter} from 'rxjs/operators';
 import {Subscription} from 'rxjs';
 
 import {AuthService} from '~core/auth.service';
-import {User} from 'firebase/app';
 import {DirectionsService} from "~core/directions.service";
 import {Direction} from "~core/models/direction.model";
 

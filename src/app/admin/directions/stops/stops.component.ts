@@ -49,4 +49,14 @@ export class StopsComponent implements OnInit {
     get stopsFromDirection() {
         return _.map(_.get(this.direction, 'stops', {}), (stop, key) => ({key, ...stop}));
     }
+
+    updateTimes() {
+        this.stops.forEach(stop => {
+            this.stopsService.times$(stop)
+                .subscribe(result => {
+                    stop.times = result;
+                    this.stopsService.update(stop).then();
+                });
+        });
+    }
 }
